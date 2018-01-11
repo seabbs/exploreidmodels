@@ -5,4 +5,4 @@ MAINTAINER "Sam Abbott" contact@samabbott.co.uk
 
 ADD . /home/rstudio/exploreidmodels
 
-RUN Rscript -e 'source("/home/rstudio/load_packages.R")'
+RUN Rscript -e 'source("/home/rstudio/exploreidmodels/load_packages.R")'
