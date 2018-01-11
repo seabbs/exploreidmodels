@@ -1,29 +1,20 @@
 #Load packages
-library(shiny)
-library(shinydashboard)
-library(shinyBS)
-library(tidyverse)
-library(plotly)
-library(idmodelr)
-library(DT)
+source("load_packages.R")
+
 ## Stop spurious warnings
 options(warn = -1)
 
 shinyServer(function(input, output) {
   
-  ## Reactive slider for number of infected
-  output$init_infected <- renderUI({
-    sliderInput(inputId = "I_0", 
-                label = "Initially Infected:",
-                min = 0,
-                max = input$N,
-                value = 1)
-  })
+  ## Declare fixed parameters
+  N <- 1000
+  I <- 1
   
   model_sim <- reactive({
   ##across all models
   times <- seq(0, input$maxtime, 0.1)
   
+  ## Choose model and set up
     if (input$model %in% "SI_ode") {
       ## Model
       model <- SI_ode
@@ -32,7 +23,7 @@ shinyServer(function(input, output) {
       params <- data.frame(beta = input$beta)
       
       ##initial pop
-      inits <- data.frame(S = input$N - input$I_0, I = input$I_0)
+      inits <- data.frame(S = N - I, I = I)
     }else if (input$model %in% "SI_demo_ode") {
       ## Model
       model <- SI_demo_ode
@@ -41,27 +32,28 @@ shinyServer(function(input, output) {
       params <- data.frame(beta = input$beta, mu = 1/input$mu)
       
       ##initial pop
-      inits <- data.frame(S = input$N - input$I_0, I = input$I_0)
+      inits <- data.frame(S = N - I, I = I)
     }else if (input$model %in% "SEI_ode") {
       ## Model
       model <- SEI_ode
       sim_fn <- solve_ode
       ##parameters
-      params <- data.frame(beta = input$beta, gamma = 1/input$gamma)
+      params <- data.frame(beta = input$beta, gamma = 12/input$gamma)
       
       ##initial pop
-      inits <- data.frame(S = input$N - input$I_0, E = 0, I = input$I_0)
+      inits <- data.frame(S = N - I, E = 0, I = I)
     }else if (input$model %in% "SEI_demo_ode") {
       ## Model
       model <- SEI_demo_ode
       sim_fn <- solve_ode
       ##parameters
-      params <- data.frame(beta = input$beta, gamma = 1/input$gamma, mu = 1/input$mu)
+      params <- data.frame(beta = input$beta, gamma = 12/input$gamma, mu = 1/input$mu)
       
       ##initial pop
-      inits <- data.frame(S = input$N - input$I_0, E = 0, I = input$I_0)
+      inits <- data.frame(S = N - I, E = 0, I = I)
     }
     
+  ## Run model
     model_sim <- simulate_model(model = model, 
                                 sim_fn = sim_fn, 
                                 inits = inits, 
@@ -70,14 +62,27 @@ shinyServer(function(input, output) {
                                 as_tibble = TRUE)
   })
   
-  output$plot_model_traj <- renderPlot({
+  ## Plot model
+  output$plot_model_traj <- renderPlotly({
     model_sim() %>% 
-      plot_model
+      biddmodellingcourse::plot_model(facet = input$facet_model, interactive = TRUE)
   })
   
+  ## Raw model table
   output$model_sim_results <- DT::renderDataTable({
     model_sim()
   })
+  
+  ## Model summary table
+  output$model_sum_tab <- renderTable({
+    model_sim() %>% 
+      biddmodellingcourse::summarise_model() %>%
+      rename_at(.vars = colnames(.)[!grepl("epi_", colnames(.))], .funs = funs(paste0("Final size: ", .))) %>% 
+      rename(`Epidemic peak time` = epi_peak_time,
+             `Epidemic peak` = epi_peak_size,
+             `Epidemic duration` = epi_dur)
+  })
+  
   output$downloadData2 <- downloadHandler(filename = "ui.R",
                                           content = function(file) {
                                             file.copy("ui.R", file, overwrite = TRUE)

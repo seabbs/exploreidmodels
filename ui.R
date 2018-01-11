@@ -1,12 +1,5 @@
 ## Load packages
-library(shiny)
-library(shinydashboard)
-library(shinyBS)
-library(tidyverse)
-library(rmarkdown)
-library(plotly)
-library(idmodelr)
-library(DT)
+source("load_packages.R")
 
 sidebar <- dashboardSidebar(
   hr(),
@@ -26,13 +19,6 @@ sidebar <- dashboardSidebar(
                               `SI with demographics` = "SI_demo_ode",
                               SEI = "SEI_ode",
                               `SEI with demographics` = "SEI_demo_ode")),
-             sliderInput("N",
-                         "Population:",
-                         value = 1000,
-                         min = 10, 
-                         max = 10000,
-                         step = 10),
-             uiOutput("init_infected"),
              sliderInput("beta", 
                          "Beta:",
                          value = 2,
@@ -41,23 +27,24 @@ sidebar <- dashboardSidebar(
                          step = 0.1),
              conditionalPanel(condition = "input.model == 'SEI_ode' || input.model == 'SEI_demo_ode'",
                               sliderInput("gamma",
-                                          "Exposure period:",
-                                          value = 1,
+                                          "Exposure period (months):",
+                                          value = 6,
                                           min = 0,
-                                          max = 100)
+                                          max = 300,
+                                          step = 1)
              ),
              conditionalPanel(condition = "input.model == 'SEI_demo_ode' ||
                               input.model ==  'SI_demo_ode'",
                               sliderInput("mu",
-                                          "Life Expectancy:",
+                                          "Life Expectancy (years):",
                                           value = 80,
                                           min = 0, 
                                           max = 1000,
                                           step = 1)),
              radioButtons("maxtime",
-                         "Timespan for model:",
+                         "Timespan for model (years):",
                          selected = 10,
-                         choices = c(10, 50, 100, 1000), 
+                         choices = c(10, 100, 1000), 
                          inline = TRUE)
                    ),
   hr(),
@@ -73,12 +60,17 @@ body <- dashboardBody(
                      title = "Model Plots", 
                      side = "right",
                      tabPanel(title = "Trajectories",
-                              plotOutput("plot_model_traj")
+                              plotlyOutput("plot_model_traj"),
+                              checkboxInput("facet_model",
+                                            label = "Plot each compartment seperately", 
+                                            value = FALSE)
                               )
                      ),
                      tabBox(width = 12, 
-                            title = "Model Statistics", 
+                            title = "Model Tables", 
                             side = "right",
+                            tabPanel(title = "Summary",
+                                     tableOutput("model_sum_tab")),
                             tabPanel(title = "Trajectories",
                                      DT::dataTableOutput("model_sim_results")
                             )
