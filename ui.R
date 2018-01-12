@@ -16,16 +16,21 @@ sidebar <- dashboardSidebar(
              selectInput("model",
                          "Select a model:",
                          list(SI = "SI_ode",
-                              `SI with demographics` = "SI_demo_ode",
                               SEI = "SEI_ode",
-                              `SEI with demographics` = "SEI_demo_ode")),
+                              SEIR = "SEIR_ode",
+                              SHLIR = "SHLIR_ode",
+                              `SHLITR with risk group` = "SHLITR_risk_group_ode")),
+             switchInput("demographics",
+                         label = "Demographics", 
+                         value = FALSE),
              sliderInput("beta", 
                          "Beta:",
                          value = 2,
                          min = 0, 
                          max = 50,
                          step = 0.1),
-             conditionalPanel(condition = "input.model == 'SEI_ode' || input.model == 'SEI_demo_ode'",
+             conditionalPanel(condition = "input.model == 'SEI_ode' || 
+                              input.model == 'SEIR_ode'",
                               sliderInput("gamma",
                                           "Exposure period (months):",
                                           value = 6,
@@ -33,49 +38,113 @@ sidebar <- dashboardSidebar(
                                           max = 300,
                                           step = 1)
              ),
-             conditionalPanel(condition = "input.model == 'SEI_demo_ode' ||
-                              input.model ==  'SI_demo_ode'",
+             conditionalPanel(condition = "input.model == 'SHLITR_risk_group_ode'",
+                              sliderInput("beta_H", 
+                                          "High risk Beta:",
+                                          value = 6,
+                                          min = 0, 
+                                          max = 50,
+                                          step = 0.1),
+                              sliderInput("prop_high",
+                                          "Proportion of the population that are high risk:",
+                                          value = 1/5,
+                                          min = 0, 
+                                          max = 1),
+                              sliderInput("M",
+                                          "Between group mixing:",
+                                          value = 1/5,
+                                          min = 0, 
+                                          max = 1),
+                              sliderInput("epsilon",
+                                          "Treatment time (months):",
+                                          value = 6,
+                                          min = 0,
+                                          max = 24,
+                                          step = 1)
+                              
+             ),
+             conditionalPanel(condition = "input.model == 'SHLIR_ode' || 
+                              input.model == 'SHLITR_risk_group_ode'",
+                              sliderInput("nu",
+                                          "High risk latent period (years):",
+                                          value = 5,
+                                          min = 0,
+                                          max = 10,
+                                          step = 1),
+                              sliderInput("gamma_H",
+                                          "Rate of developing active disease when high risk:",
+                                          value = 1/5,
+                                          min = 0, 
+                                          max = 1),
+                              sliderInput("gamma_L",
+                                          "Low risk latent period (years):",
+                                          value = 20,
+                                          min = 0,
+                                          max = 100,
+                                          step = 1)
+                              
+             ),
+             conditionalPanel(condition = "input.model == 'SEIR_ode' || input.model == 'SHLIR_ode' ||
+                              input.model == 'SHLITR_risk_group_ode'",
+                              sliderInput("tau",
+                                          "Infectious Period (months):",
+                                          value = 3,
+                                          min = 0,
+                                          max = 150,
+                                          step = 1)
+             ),
+             conditionalPanel(condition = "input.demographics",
                               sliderInput("mu",
                                           "Life Expectancy (years):",
                                           value = 80,
                                           min = 0, 
                                           max = 1000,
                                           step = 1)),
-             radioButtons("maxtime",
-                         "Timespan for model (years):",
-                         selected = 10,
-                         choices = c(10, 100, 1000), 
-                         inline = TRUE)
-                   ),
+             radioButtons(
+               inputId = "maxtime", label = "Timespan (years):", 
+               choices = c(10, 100, 200),
+               selected = 10,
+               inline = TRUE)),
   hr(),
-  helpText("Developed by ", a("Sam Abbott", href = "http://samabbott.co.uk"), 
-           style = "padding-left:1em; padding-right:1em;position:absolute; bottom:1em; ")
+  helpText("Developed by ", 
+           a("Sam Abbott", href = "http://samabbott.co.uk"), ".",
+           style = "padding-left:1em; padding-right:1em;position:absolute;")
 )
 
 body <- dashboardBody(
   tabItems(
     tabItem(tabName = "exp-model",
+          fluidPage(
             fluidRow(
-              tabBox(width = 12, 
-                     title = "Model Plots", 
-                     side = "right",
-                     tabPanel(title = "Trajectories",
-                              plotlyOutput("plot_model_traj"),
-                              checkboxInput("facet_model",
-                                            label = "Plot each compartment seperately", 
-                                            value = FALSE)
-                              )
-                     ),
-                     tabBox(width = 12, 
-                            title = "Model Tables", 
-                            side = "right",
-                            tabPanel(title = "Summary",
-                                     tableOutput("model_sum_tab")),
-                            tabPanel(title = "Trajectories",
-                                     DT::dataTableOutput("model_sim_results")
-                            )
-                            )
-    )),
+              tabBox(
+                width = 12,
+                height = "800px",
+                title = "Model", 
+                side = "right",
+                tabPanel(title = "Trajectories",
+                         plotlyOutput("plot_model_traj", width = "100%", height = "750px"),
+                         switchInput("facet_model",
+                                     label = "Plot compartments seperately", 
+                                     value = FALSE)
+                ),
+                tabPanel(title = "Code",
+                         textOutput("model_code")
+                )
+              )),
+            fluidRow(
+              tabBox(
+                width = 12,
+                title = "Model Tables", 
+                side = "right",
+                tabPanel(title = "Summary",
+                         tableOutput("model_sum_tab")),
+                tabPanel(title = "Trajectories",
+                         DT::dataTableOutput("model_sim_results")
+                )
+              )
+            )
+          )
+),
     tabItem(tabName = "readme",
             withMathJax(), 
             includeMarkdown("README.md")
@@ -101,5 +170,5 @@ dashboardPage(
   dashboardHeader(title = "Explore ID Models"),
   sidebar,
   body,
-  skin = "black"
+  skin = "green"
 )
