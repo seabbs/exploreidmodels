@@ -98,7 +98,9 @@ shinyServer(function(input, output) {
   ## Model summary table
   output$model_sum_tab <- renderTable({
     model_sim()[[1]] %>% 
-      biddmodellingcourse::summarise_model()
+      biddmodellingcourse::summarise_model() %>% 
+      mutate_all(.funs = funs(round(., digits = 0))) %>% 
+      mutate_all(.funs = as.integer)
   })
   
   

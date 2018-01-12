@@ -122,13 +122,15 @@ body <- dashboardBody(
                 title = "Model", 
                 side = "right",
                 tabPanel(title = "Trajectories",
-                         plotlyOutput("plot_model_traj", width = "100%", height = "750px"),
+                         plotlyOutput("plot_model_traj", width = "100%", height = "690px") %>% 
+                           withSpinner(),
                          switchInput("facet_model",
                                      label = "Plot compartments seperately", 
                                      value = FALSE)
                 ),
                 tabPanel(title = "Code",
-                         textOutput("model_code")
+                         verbatimTextOutput("model_code") %>% 
+                           withSpinner()
                 )
               )),
             fluidRow(
@@ -137,9 +139,11 @@ body <- dashboardBody(
                 title = "Model Tables", 
                 side = "right",
                 tabPanel(title = "Summary",
-                         tableOutput("model_sum_tab")),
+                         tableOutput("model_sum_tab") %>% 
+                           withSpinner()),
                 tabPanel(title = "Trajectories",
-                         DT::dataTableOutput("model_sim_results")
+                         DT::dataTableOutput("model_sim_results") %>% 
+                            withSpinner()
                 )
               )
             )
