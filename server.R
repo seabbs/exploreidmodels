@@ -109,13 +109,6 @@ shinyServer(function(input, output) {
     print(model_sim()[[2]])
   })
 
-  ## HTML readme
-  output$readme_doc <- renderUI({
-    tags$iframe(src = 'https:/www.github.com/seabbs/exploreidmodels/README.html',
-                width = '100%', height = '800px', 
-                frameborder = 0, scrolling = 'auto')
-  })
-
   output$downloadData2 <- downloadHandler(filename = "ui.R",
                                           content = function(file) {
                                             file.copy("ui.R", file, overwrite = TRUE)

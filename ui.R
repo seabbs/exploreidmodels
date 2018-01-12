@@ -150,7 +150,7 @@ body <- dashboardBody(
           )
 ),
     tabItem(tabName = "readme",
-            htmlOutput("readme_doc")
+            includeMarkdown("README.md")
     ),
     tabItem(tabName = "ui",
             box( width = NULL, status = "primary", solidHeader = TRUE, title = "UI",
