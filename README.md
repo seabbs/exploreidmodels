@@ -4,14 +4,14 @@ Explore Infectious Disease Models
 
 [This shiny app](http://seabbs.co.uk/shiny/exploreidmodels) has been developed to allow the exploration of the parameter space of [compartmental infectious disease models](https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology). It is designed to be used as a teaching aid when introducing people to the concepts behind infectious disease models without requiring them to interact with the underlying code. A number of infectious disease models are included, such as a Susceptible, Exposed, Infected, Recovered model the flow diagram for which can be seen below.
 
-<img src="./img/SEIR_flow_diag.png" alt="A susceptible, exposed, infected, recovered model." width="70%" />
+<img src="./img/SEIR_flow_diag.png" alt="A susceptible, exposed, infected, recovered model." width="30%" />
 <p class="caption">
 A susceptible, exposed, infected, recovered model.
 </p>
 
 An example of a more complex model for [Tuberculosis](https://en.wikipedia.org/wiki/Tuberculosis) is also included,
 
-<img src="./img/SHLIR_real_model.png" alt="A complex model of Tuberculosis, including reinfection, multiple latent compartments, risk groups and treatment." width="70%" />
+<img src="./img/SHLIR_real_model.png" alt="A complex model of Tuberculosis, including reinfection, multiple latent compartments, risk groups and treatment." width="50%" />
 <p class="caption">
 A complex model of Tuberculosis, including reinfection, multiple latent compartments, risk groups and treatment.
 </p>
@@ -23,21 +23,21 @@ Using the app
 
 -   Click on the Explore Model Dynamics Tab in the menu on the left hand side. You should see this,
 
-<img src="./img/how_to_get_models.png" alt="Explore Model Dynamics tab for the Explore Infectious Disease web app." width="70%" />
+<img src="./img/how_to_get_models.png" alt="Explore Model Dynamics tab for the Explore Infectious Disease web app." width="50%" />
 <p class="caption">
 Explore Model Dynamics tab for the Explore Infectious Disease web app.
 </p>
 
 -   Select a model of interest, demographic processes can be toggled on or off.
 
-<img src="./img/how_to_choose_model.png" alt="Selecting a Susceptible, High risk latent, Low risk latent, Infected, Recovered model." width="70%" />
+<img src="./img/how_to_choose_model.png" alt="Selecting a Susceptible, High risk latent, Low risk latent, Infected, Recovered model." width="50%" />
 <p class="caption">
 Selecting a Susceptible, High risk latent, Low risk latent, Infected, Recovered model.
 </p>
 
 -   Explore the parameter space of the model using the provided sliders. A summary table of the model simulation is provided as are the raw simulation results.
 
-<img src="./img/how_to_vary_params.png" alt="Varing the high risk latent period." width="70%" />
+<img src="./img/how_to_vary_params.png" alt="Varing the high risk latent period." width="50%" />
 <p class="caption">
 Varing the high risk latent period.
 </p>

@@ -8,7 +8,7 @@ knitr::opts_chunk$set(
   echo = FALSE,
   comment = "#>",
   fig.path = "README-",
-  fig.align = "centre"
+  fig.align = "center"
 )
 ```
 
@@ -16,16 +16,15 @@ knitr::opts_chunk$set(
 
 [This shiny app](http://seabbs.co.uk/shiny/exploreidmodels) has been developed to allow the exploration of the parameter space of [compartmental infectious disease models](https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology). It is designed to be used as a teaching aid when introducing people to the concepts behind infectious disease models without requiring them to interact with the underlying code. A number of infectious disease models are included, such as a Susceptible, Exposed, Infected, Recovered model the flow diagram for which can be seen below.
 
-```{r out.width = "70%", fig.cap = "A susceptible, exposed, infected, recovered model."}
+```{r out.width = "30%", fig.cap = "A susceptible, exposed, infected, recovered model."}
 knitr::include_graphics("./img/SEIR_flow_diag.png")
 ```
 
 An example of a more complex model for [Tuberculosis](https://en.wikipedia.org/wiki/Tuberculosis) is also included, 
 
-```{r out.width = "70%", fig.cap = "A complex model of Tuberculosis, including reinfection, multiple latent compartments, risk groups and treatment."}
+```{r out.width = "50%", fig.cap = "A complex model of Tuberculosis, including reinfection, multiple latent compartments, risk groups and treatment."}
 knitr::include_graphics("./img/SHLIR_real_model.png")
 ```
-
 
 This includes a risk group, high and low risk latent states, reinfection for those who have recovered from active disease or are latently infected, and treatment. The impact of demographic processes are explored in all models. The code for each model can be viewed in the application.
 
@@ -33,19 +32,19 @@ This includes a risk group, high and low risk latent states, reinfection for tho
 
 - Click on the Explore Model Dynamics Tab in the menu on the left hand side. You should see this,
 
-```{r out.width = "70%", fig.cap = "Explore Model Dynamics tab for the Explore Infectious Disease web app."}
+```{r out.width = "50%", fig.cap = "Explore Model Dynamics tab for the Explore Infectious Disease web app."}
 knitr::include_graphics("./img/how_to_get_models.png")
 ```
 
 - Select a model of interest, demographic processes can be toggled on or off. 
 
-```{r out.width = "70%", fig.cap = "Selecting a Susceptible, High risk latent, Low risk latent, Infected, Recovered model."}
+```{r out.width = "50%", fig.cap = "Selecting a Susceptible, High risk latent, Low risk latent, Infected, Recovered model."}
 knitr::include_graphics("./img/how_to_choose_model.png")
 ```
 
 - Explore the parameter space of the model using the provided sliders. A summary table of the model simulation is provided as are the raw simulation results.
 
-```{r out.width = "70%", fig.cap = "Varing the high risk latent period."}
+```{r out.width = "50%", fig.cap = "Varing the high risk latent period."}
 knitr::include_graphics("./img/how_to_vary_params.png")
 ```
 
