@@ -57,6 +57,7 @@ shinyServer(function(input, output) {
       ##initial pop
       inits <- data.frame(S = N - I, H = 0, L = 0, I = I, R = R)
     }else if (input$model %in% "SHLITR_risk_group_ode") {
+      
       ## Model
       model <- SHLITR_risk_group_ode
       sim_fn <- solve_ode
@@ -75,7 +76,10 @@ shinyServer(function(input, output) {
   if (input$demographics) {
     params$mu = 1/input$mu
   }
-    
+  
+  ## For rate parameters that have been made using time periods convert Inf to very large numbers
+  params <- mutate_if(params, is.numeric, .funs = funs({ifelse(. %in% Inf, 1e10, .)}))
+  
   ## Run model
     model_sim <- simulate_model(model = model, 
                                 sim_fn = sim_fn, 
@@ -90,20 +94,38 @@ shinyServer(function(input, output) {
   
   ## Store current model simulation and set previous as old simulation
   observeEvent(model_sim(), {simulations$previous <- simulations$current; simulations$current <- model_sim()})
-               
+           
+  ## Check models are implemented
+  model_implemented <- reactive({
+    validate(
+      need(!all(!input$demographics, input$model %in% "SHLITR_risk_group_ode"), "This model has only be implemented with demographics, enable them")
+    )
+    
+    message("Model has been implemented, showing output.")
+  })
+  
   ## Plot model
   output$plot_model_traj <- renderPlotly({
+    
+    model_implemented()
+    
     simulations$current[[1]] %>% 
       biddmodellingcourse::plot_model(facet = input$facet_model, interactive = TRUE)
   })
   
   ## Raw model table
   output$model_sim_results <- DT::renderDataTable({
+    
+    model_implemented()
+    
     simulations$current[[1]]
   })
   
   ## Model summary table
   output$model_sum_tab <- renderTable({
+    
+    model_implemented()
+    
     simulations$current[[1]] %>% 
       biddmodellingcourse::summarise_model() %>% 
       mutate_all(.funs = funs(round(., digits = 0))) %>% 
@@ -113,6 +135,9 @@ shinyServer(function(input, output) {
   
   ## Model code
   output$model_code <- renderPrint({
+    
+    model_implemented()
+    
     print(model_sim()[[2]])
   })
 
