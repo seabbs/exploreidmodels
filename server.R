@@ -104,32 +104,72 @@ shinyServer(function(input, output) {
     message("Model has been implemented, showing output.")
   })
   
+  ## Previous model exists
+  previous_model_exists <- reactive({
+    validate(
+      need(!all(is.null(simulations$previous), input$previous_model_run),
+           "In order to compare models you must simulate a second model")
+    )
+    
+    message("Two models have been simulated or a comparision is not needed.")
+  })
+  
   ## Plot model
   output$plot_model_traj <- renderPlotly({
     
     model_implemented()
+    previous_model_exists()
+    
+    if (input$previous_model_run) {
+      prev_sim <- simulations$previous[[1]]
+    }else{
+      prev_sim <- NULL
+    }
     
     simulations$current[[1]] %>% 
-      biddmodellingcourse::plot_model(facet = input$facet_model, interactive = TRUE)
+      biddmodellingcourse::plot_model(
+        prev_sim = prev_sim,
+        facet = input$facet_model, interactive = TRUE)
   })
   
   ## Raw model table
   output$model_sim_results <- DT::renderDataTable({
     
     model_implemented()
+    previous_model_exists()
     
-    simulations$current[[1]]
+    if (input$previous_model_run) {
+      simulations$current[[1]] %>% 
+        mutate(Model = "Current") %>% 
+        bind_rows(simulations$previous[[1]] %>% 
+                    mutate(Model = "Previous"))
+    }else{
+      simulations$current[[1]]
+    }
+
   })
   
   ## Model summary table
   output$model_sum_tab <- renderTable({
     
     model_implemented()
+    previous_model_exists()
     
-    simulations$current[[1]] %>% 
+    summary_tab <- simulations$current[[1]] %>% 
       biddmodellingcourse::summarise_model() %>% 
-      mutate_all(.funs = funs(round(., digits = 0))) %>% 
-      mutate_all(.funs = as.integer)
+      mutate(Model = "Current")
+    
+    if (input$previous_model_run) {
+      summary_tab <- summary_tab %>% 
+        bind_rows(simulations$previous[[1]] %>% 
+                    biddmodellingcourse::summarise_model() %>%
+                    mutate(Model = "Previous"))
+    }
+    
+    summary_tab %>% 
+      select(Model, everything()) %>% 
+      mutate_if(is.numeric, .funs = funs(round(., digits = 0))) %>% 
+      mutate_if(is.numeric, .funs = as.integer)
   })
   
   
