@@ -11,7 +11,7 @@ shinyServer(function(input, output) {
   I <- 1
   R <- 0
   
-  model_sim <- reactive({
+  model_sim <- eventReactive(input$go, {
   ##across all models
   times <- seq(0, input$maxtime, 0.1)
   
@@ -82,7 +82,7 @@ shinyServer(function(input, output) {
                                 as_tibble = TRUE)
     
     models <- list(model_sim, model)
-  })
+  }, ignoreNULL = FALSE)
   
   ## Plot model
   output$plot_model_traj <- renderPlotly({

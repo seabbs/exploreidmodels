@@ -13,6 +13,7 @@ sidebar <- dashboardSidebar(
               )
   ),
   conditionalPanel(condition = 'input.menu == "exp-model"',
+             actionButton("go", "Run Model Simulation"),      
              selectInput("model",
                          "Select a model:",
                          list(SI = "SI_ode",
@@ -122,11 +123,14 @@ body <- dashboardBody(
                 title = "Model", 
                 side = "right",
                 tabPanel(title = "Trajectories",
-                         plotlyOutput("plot_model_traj", width = "100%", height = "690px") %>% 
+                         plotlyOutput("plot_model_traj", width = "100%", height = "650px") %>% 
                            withSpinner(),
                          switchInput("facet_model",
                                      label = "Plot compartments seperately", 
-                                     value = FALSE)
+                                     value = FALSE, inline = TRUE, width = "auto"),
+                         switchInput("previous_model_run",
+                                     label = "Show the previous model run", 
+                                     value = FALSE, inline = TRUE, width = "auto")
                 ),
                 tabPanel(title = "Code",
                          verbatimTextOutput("model_code") %>% 
