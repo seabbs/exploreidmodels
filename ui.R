@@ -123,7 +123,7 @@ body <- dashboardBody(
                 title = "Model", 
                 side = "right",
                 tabPanel(title = "Trajectories",
-                         plotlyOutput("plot_model_traj", width = "100%", height = "650px") %>% 
+                         plotlyOutput("plot_model_traj", width = "50%", height = "650px", inline = TRUE) %>% 
                            withSpinner(),
                          switchInput("facet_model",
                                      label = "Plot compartments seperately", 

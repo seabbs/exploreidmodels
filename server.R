@@ -6,6 +6,9 @@ options(warn = -1)
 
 shinyServer(function(input, output) {
   
+  ## Set up reactive values
+  simulations <- reactiveValues(current = NULL, previous = NULL)
+  
   ## Declare fixed parameters
   N <- 1000
   I <- 1
@@ -84,20 +87,24 @@ shinyServer(function(input, output) {
     models <- list(model_sim, model)
   }, ignoreNULL = FALSE)
   
+  
+  ## Store current model simulation and set previous as old simulation
+  observeEvent(model_sim(), {simulations$previous <- simulations$current; simulations$current <- model_sim()})
+               
   ## Plot model
   output$plot_model_traj <- renderPlotly({
-    model_sim()[[1]] %>% 
+    simulations$current[[1]] %>% 
       biddmodellingcourse::plot_model(facet = input$facet_model, interactive = TRUE)
   })
   
   ## Raw model table
   output$model_sim_results <- DT::renderDataTable({
-    model_sim()[[1]]
+    simulations$current[[1]]
   })
   
   ## Model summary table
   output$model_sum_tab <- renderTable({
-    model_sim()[[1]] %>% 
+    simulations$current[[1]] %>% 
       biddmodellingcourse::summarise_model() %>% 
       mutate_all(.funs = funs(round(., digits = 0))) %>% 
       mutate_all(.funs = as.integer)
