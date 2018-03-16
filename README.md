@@ -42,6 +42,11 @@ Selecting a Susceptible, High risk latent, Low risk latent, Infected, Recovered 
 Varing the high risk latent period.
 </p>
 
+Running the App Locally
+-----------------------
+
+The app can be run directly from GitHub. Open R and run the following;
+
 Installation
 ------------
 

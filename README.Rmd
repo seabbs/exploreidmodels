@@ -48,6 +48,15 @@ knitr::include_graphics("./img/how_to_choose_model.png")
 knitr::include_graphics("./img/how_to_vary_params.png")
 ```
 
+## Running the App Locally
+
+The app can be run directly from GitHub. Open R and run the following;
+
+```{r run-github, eval = FALSE}
+install.packages("shiny")
+shiny::runGitHub("exploreidmodels", "seabbs")
+```
+
 ## Installation
 
 ### Manual Install
