@@ -138,7 +138,7 @@ shinyServer(function(input, output) {
     
     model_implemented()
     
-    print(model_sim()[[2]])
+    print(simulations$current[[2]])
   })
 
   output$downloadData2 <- downloadHandler(filename = "ui.R",
