@@ -1,5 +1,5 @@
 ## Load packages
-packages <- list("shiny", "shinydashboard", "shinyBS", "tidyverse", 
+packages <- list("shiny", "shinydashboard", "shinyBS", "magrittr", "dplyr", 
                    "rmarkdown", "plotly", "DT", "idmodelr", "biddmodellingcourse", "shinyWidgets",
                  "shinycssloaders")
 
