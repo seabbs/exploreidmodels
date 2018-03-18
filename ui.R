@@ -126,7 +126,7 @@ body <- dashboardBody(
                          plotlyOutput("plot_model_traj", width = "100%", height = "650px") %>% 
                            withSpinner(),
                          switchInput("facet_model",
-                                     label = "Plot compartments seperately", 
+                                     label = "Plot compartments separately", 
                                      value = FALSE, inline = TRUE, width = "auto"),
                          switchInput("previous_model_run",
                                      label = "Show the previous model run", 
