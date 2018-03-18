@@ -8,7 +8,7 @@ names(packages)[packages %in% "idmodelr"] <- "seabbs"
 names(packages)[packages %in% "biddmodellingcourse"] <- "bristolmathmodellers"
 
 load_packages <- function(packages) {
-  packages <- c("devtools", packages)
+  if (!require(devtools)) install.packages("devtools"); library(devtools)
   
   for (i in 1:length(packages)) {
     package <- packages[[i]]

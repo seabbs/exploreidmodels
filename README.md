@@ -23,24 +23,25 @@ Using the app
 
 -   Click on the Explore Model Dynamics Tab in the menu on the left hand side. You should see this,
 
-<img src="./img/how_to_get_models.png" alt="Explore Model Dynamics tab for the Explore Infectious Disease web app." width="50%" />
-<p class="caption">
-Explore Model Dynamics tab for the Explore Infectious Disease web app.
-</p>
+<img src="./img/how_to_get_models.png" width="50%" style="display: block; margin: auto;" />
 
--   Select a model of interest, demographic processes can be toggled on or off.
+-   Select a model of interest, demographic processes can be toggled on or off. Click on the run model simulation button to simulate the model.
 
-<img src="./img/how_to_choose_model.png" alt="Selecting a Susceptible, High risk latent, Low risk latent, Infected, Recovered model." width="50%" />
-<p class="caption">
-Selecting a Susceptible, High risk latent, Low risk latent, Infected, Recovered model.
-</p>
+<img src="./img/how_to_choose_model.png" width="50%" style="display: block; margin: auto;" />
 
--   Explore the parameter space of the model using the provided sliders. A summary table of the model simulation is provided as are the raw simulation results.
+-   Explore the parameter space of the model using the provided sliders. A summary table of the model simulation is provided as are the raw simulation results. Show the previous model simulation using the previous model run slider. The model output can also be shown separately for each compartment using the plot compartments separately slider.
 
-<img src="./img/how_to_vary_params.png" alt="Varing the high risk latent period." width="50%" />
-<p class="caption">
-Varing the high risk latent period.
-</p>
+<img src="./img/how_to_vary_params.png" width="50%" style="display: block; margin: auto;" />
+
+Running the App Locally
+-----------------------
+
+The app can be run directly from GitHub. Open R and run the following;
+
+``` r
+install.packages("shiny")
+shiny::runGitHub("exploreidmodels", "seabbs")
+```
 
 Installation
 ------------

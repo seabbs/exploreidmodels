@@ -32,20 +32,29 @@ This includes a risk group, high and low risk latent states, reinfection for tho
 
 - Click on the Explore Model Dynamics Tab in the menu on the left hand side. You should see this,
 
-```{r out.width = "50%", fig.cap = "Explore Model Dynamics tab for the Explore Infectious Disease web app."}
+```{r out.width = "50%"}
 knitr::include_graphics("./img/how_to_get_models.png")
 ```
 
-- Select a model of interest, demographic processes can be toggled on or off. 
+- Select a model of interest, demographic processes can be toggled on or off. Click on the run model simulation button to simulate the model.
 
-```{r out.width = "50%", fig.cap = "Selecting a Susceptible, High risk latent, Low risk latent, Infected, Recovered model."}
+```{r out.width = "50%"}
 knitr::include_graphics("./img/how_to_choose_model.png")
 ```
 
-- Explore the parameter space of the model using the provided sliders. A summary table of the model simulation is provided as are the raw simulation results.
+- Explore the parameter space of the model using the provided sliders. A summary table of the model simulation is provided as are the raw simulation results. Show the previous model simulation using the previous model run slider. The model output can also be shown separately for each compartment using the plot compartments separately slider.
 
-```{r out.width = "50%", fig.cap = "Varing the high risk latent period."}
+```{r out.width = "50%"}
 knitr::include_graphics("./img/how_to_vary_params.png")
+```
+
+## Running the App Locally
+
+The app can be run directly from GitHub. Open R and run the following;
+
+```{r run-github, echo = TRUE, eval = FALSE}
+install.packages("shiny")
+shiny::runGitHub("exploreidmodels", "seabbs")
 ```
 
 ## Installation
