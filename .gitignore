@@ -4,3 +4,5 @@
 .Ruserdata
 .DS_Store
 packrat/lib*/
+packrat/bundles/
+rsconnect/
