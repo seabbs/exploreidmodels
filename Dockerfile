@@ -3,6 +3,10 @@ FROM rocker/tidyverse:latest
 
 MAINTAINER "Sam Abbott" contact@samabbott.co.uk
 
+RUN export ADD=shiny && bash /etc/cont-init.d/add
+
 ADD . /home/rstudio/exploreidmodels
 
-RUN Rscript -e 'source("/home/rstudio/exploreidmodels/load_packages.R")'
+RUN Rscript /home/rstudio/exploreidmodels/load_packages.R
+
+ADD . /srv/shiny-server/exploreidmodels
