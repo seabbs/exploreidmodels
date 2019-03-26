@@ -57,6 +57,8 @@ install.packages("shiny")
 shiny::runGitHub("exploreidmodels", "seabbs")
 ```
 
+If the above fails the likely reason is that a required package has failed to install. See [here](https://github.com/seabbs/exploreidmodels/blob/master/load_packages.R) for a list of required packages.
+
 ## Installation
 
 ### Manual Install
@@ -69,7 +71,6 @@ packrat::restore()
 ```
 
 To run the app open the `ui.R` file and press run, depending on your computer this may take some time.
-
 
 ### Using Docker
 
