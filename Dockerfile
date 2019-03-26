@@ -1,5 +1,5 @@
 ## Start with the shiny docker image
-FROM rocker/tidyverse:latest
+FROM rocker/tidyverse:3.5.2
 
 MAINTAINER "Sam Abbott" contact@samabbott.co.uk
 
