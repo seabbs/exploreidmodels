@@ -17,6 +17,8 @@ sidebar <- dashboardSidebar(
              selectInput("model",
                          "Select a model:",
                          list(SI = "SI_ode",
+                              SIR = "SIR_ode",
+                              `SIR with vaccination` = "SIR_vaccination_ode",
                               SEI = "SEI_ode",
                               SEIR = "SEIR_ode",
                               SHLIR = "SHLIR_ode",
@@ -86,13 +88,27 @@ sidebar <- dashboardSidebar(
                               
              ),
              conditionalPanel(condition = "input.model == 'SEIR_ode' || input.model == 'SHLIR_ode' ||
-                              input.model == 'SHLITR_risk_group_ode'",
+                              input.model == 'SHLITR_risk_group_ode' || input.model == 'SIR_ode'",
                               sliderInput("tau",
-                                          "Infectious Period (months):",
+                                          "Infectious period (months):",
                                           value = 3,
                                           min = 0,
                                           max = 150,
                                           step = 1)
+             ),
+             conditionalPanel(condition = "input.model == 'SIR_vaccination_ode'",
+                              sliderInput("alpha", 
+                                          "Proportion vaccinated:",
+                                          value = 0.8,
+                                          min = 0, 
+                                          max = 1,
+                                          step = 0.01),
+                              sliderInput("lambda",
+                                          "Effectiveness of the vaccine:",
+                                          value = 0.8,
+                                          min = 0, 
+                                          max = 1)
+                              
              ),
              conditionalPanel(condition = "input.demographics",
                               sliderInput("mu",
@@ -108,7 +124,9 @@ sidebar <- dashboardSidebar(
                inline = TRUE)),
   hr(),
   helpText("Developed by ", 
-           a("Sam Abbott", href = "http://samabbott.co.uk"), ".",
+           a("Sam Abbott", href = "http://samabbott.co.uk"), 
+           "Powered by",
+           a("idmodelr", href = "http://samabbott.co.uk/idmodelr"),
            style = "padding-left:1em; padding-right:1em;position:absolute;")
 )
 

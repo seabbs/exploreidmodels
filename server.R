@@ -8,6 +8,7 @@ shinyServer(function(input, output) {
   
   ## Set up reactive values
   simulations <- reactiveValues(current = NULL, previous = NULL)
+  prev_summary_tab <- reactiveValues(current = NULL, previous = NULL)
   
   ## Declare fixed parameters
   N <- 1000
@@ -28,6 +29,15 @@ shinyServer(function(input, output) {
       
       ##initial pop
       inits <- data.frame(S = N - I, I = I)
+    }else if (input$model %in% "SIR_ode") {
+      ## Model
+      model <- ifelse(input$demographics, SIR_demo_ode, SIR_ode)
+      sim_fn <- solve_ode
+      ##parameters
+      params <- data.frame(beta = input$beta, tau = 12/input$tau)
+      
+      ##initial pop
+      inits <- data.frame(S = N - I, I = I, R = 0)
     }else if (input$model %in% "SEI_ode") {
       ## Model
       model <- ifelse(input$demographics, SEI_demo_ode, SEI_ode)
@@ -70,6 +80,18 @@ shinyServer(function(input, output) {
       ##initial pop
       inits <- data.frame(S = (1 - params$p) * N, H = 0, L = 0, I = 0, Tr = 0, R = 0,
                           S_H = params$p * N - I, H_H = 0, L_H = 0, I_H = I, Tr_H = 0, R_H = 0)
+    }else if (input$model %in% "SIR_vaccination_ode") {
+      ## Model
+      model <- SIR_vaccination_ode
+      sim_fn <- solve_ode
+      ##parameters
+      params <- data.frame(beta = input$beta, tau = 12/input$tau,
+                           alpha = input$alpha, lambda = input$lambda,
+                           mu = 1 / input$mu)
+      
+      ##initial pop
+      inits <- data.frame(S_u = (1 - input$alpha) * (N - I), I_u = I, R_u = 0,
+                          S_v = input$alpha * (N - I), I_v = 0, R_v = 0)
     }
   
   ## Add demographics
@@ -88,17 +110,24 @@ shinyServer(function(input, output) {
                                 times = times,
                                 as_tibble = TRUE)
     
-    models <- list(model_sim, model)
+    models <- list(model_sim, model, input$model)
   }, ignoreNULL = FALSE)
   
   
   ## Store current model simulation and set previous as old simulation
-  observeEvent(model_sim(), {simulations$previous <- simulations$current; simulations$current <- model_sim()})
+  observeEvent(model_sim(), {
+    simulations$previous <- simulations$current
+    simulations$current <- model_sim()
+    })
            
   ## Check models are implemented
   model_implemented <- reactive({
     validate(
       need(!all(!input$demographics, input$model %in% "SHLITR_risk_group_ode"), "This model has only be implemented with demographics, enable them")
+    )
+    
+    validate(
+      need(!all(!input$demographics, input$model %in% "SIR_vaccination_ode"), "This model has only be implemented with demographics, enable them")
     )
     
     message("Model has been implemented, showing output.")
@@ -127,9 +156,10 @@ shinyServer(function(input, output) {
     }
     
     simulations$current[[1]] %>% 
-      biddmodellingcourse::plot_model(
+      idmodelr::plot_model(
         prev_sim = prev_sim,
-        facet = input$facet_model, interactive = TRUE)
+        facet = input$facet_model) %>% 
+      ggplotly()
   })
   
   ## Raw model table
@@ -149,30 +179,54 @@ shinyServer(function(input, output) {
 
   })
   
+  
+  ## Generate model summary
+  summary_tab <- reactive({
+    model_implemented()
+    previous_model_exists()
+    
+    tab <- simulations$current[[1]]
+    
+    if (simulations$current[[3]] %in% "SIR_vaccination_ode") {
+      tab <-  tab %>% 
+        mutate(I = I_u + I_v)
+    }else if ( simulations$current[[3]] %in% "SHLITR_risk_group_ode"){
+      tab <- tab %>% 
+        mutate(I = I + I_H)
+    }
+    
+    tab <- tab %>% 
+      idmodelr::summarise_model() %>% 
+      mutate(Model = "Current")
+  })
+  
+  ## Store current and previous summary table
+  observeEvent(summary_tab(), {
+    prev_summary_tab$previous <- prev_summary_tab$current
+    prev_summary_tab$current <- summary_tab()
+  })
+  
+  
   ## Model summary table
   output$model_sum_tab <- renderTable({
     
     model_implemented()
-    previous_model_exists()
     
-    summary_tab <- simulations$current[[1]] %>% 
-      biddmodellingcourse::summarise_model() %>% 
-      mutate(Model = "Current")
+    overall_summary_tab <-  prev_summary_tab$current
     
     if (input$previous_model_run) {
-      summary_tab <- summary_tab %>% 
-        bind_rows(simulations$previous[[1]] %>% 
-                    biddmodellingcourse::summarise_model() %>%
+      overall_summary_tab <- overall_summary_tab %>% 
+        bind_rows(prev_summary_tab$previous %>%
                     mutate(Model = "Previous"))
     }
     
-    summary_tab %>% 
-      select(Model, everything()) %>% 
+    overall_summary_tab %>% 
+      dplyr::select(Model, everything()) %>% 
       mutate_if(is.numeric, .funs = funs(round(., digits = 0))) %>% 
       mutate_if(is.numeric, .funs = as.integer)
   })
   
-  
+
   ## Model code
   output$model_code <- renderPrint({
     

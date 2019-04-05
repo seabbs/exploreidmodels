@@ -1,6 +1,6 @@
 ## Load packages
 packages <- list("shiny", "shinydashboard", "shinyBS", "magrittr", "dplyr", 
-                   "rmarkdown", "plotly", "DT", "idmodelr", "biddmodellingcourse", "shinyWidgets",
+                   "rmarkdown", "plotly", "DT", "idmodelr", "shinyWidgets",
                  "shinycssloaders")
 
 ## Assign usernames to github packages

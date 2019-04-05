@@ -26,7 +26,7 @@ An example of a more complex model for [Tuberculosis](https://en.wikipedia.org/w
 knitr::include_graphics("./img/SHLIR_real_model.png")
 ```
 
-This includes a risk group, high and low risk latent states, reinfection for those who have recovered from active disease or are latently infected, and treatment. The impact of demographic processes are explored in all models. The code for each model can be viewed in the application.
+This includes a risk group, high and low risk latent states, reinfection for those who have recovered from active disease or are latently infected, and treatment. The impact of demographic processes are explored in all models. The code for each model can be viewed in the application. All functionality seen in this app is provided by   [`idmodelr`](https://github.com/seabbs/idmodelr).
 
 ## Using the app
 
