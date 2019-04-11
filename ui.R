@@ -35,7 +35,7 @@ sidebar <- dashboardSidebar(
              conditionalPanel(condition = "input.model == 'SEI_ode' || 
                               input.model == 'SEIR_ode'",
                               sliderInput("gamma",
-                                          "Exposure period (months):",
+                                          "Latent period (months):",
                                           value = 6,
                                           min = 0,
                                           max = 300,
