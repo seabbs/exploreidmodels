@@ -18,11 +18,11 @@ sidebar <- dashboardSidebar(
                          "Select a model:",
                          list(SI = "SI_ode",
                               SIR = "SIR_ode",
-                              `SIR with vaccination` = "SIR_vaccination_ode",
+                              `SIR with vaccination` = "SIR_vaccination_demographics_ode",
                               SEI = "SEI_ode",
                               SEIR = "SEIR_ode",
                               SHLIR = "SHLIR_ode",
-                              `SHLITR with risk group` = "SHLITR_risk_group_ode")),
+                              `SHLITR with risk group` = "SHLITR_risk_demographics_ode")),
              switchInput("demographics",
                          label = "Demographics", 
                          value = FALSE),
@@ -41,7 +41,7 @@ sidebar <- dashboardSidebar(
                                           max = 300,
                                           step = 1)
              ),
-             conditionalPanel(condition = "input.model == 'SHLITR_risk_group_ode'",
+             conditionalPanel(condition = "input.model == 'SHLITR_risk_demographics_ode'",
                               sliderInput("beta_H", 
                                           "High risk Beta:",
                                           value = 6,
@@ -67,7 +67,7 @@ sidebar <- dashboardSidebar(
                               
              ),
              conditionalPanel(condition = "input.model == 'SHLIR_ode' || 
-                              input.model == 'SHLITR_risk_group_ode'",
+                              input.model == 'SHLITR_risk_demographics_ode'",
                               sliderInput("nu",
                                           "High risk latent period (years):",
                                           value = 5,
@@ -88,7 +88,7 @@ sidebar <- dashboardSidebar(
                               
              ),
              conditionalPanel(condition = "input.model == 'SEIR_ode' || input.model == 'SHLIR_ode' ||
-                              input.model == 'SHLITR_risk_group_ode' || input.model == 'SIR_ode'",
+                              input.model == 'SHLITR_risk_demographics_ode' || input.model == 'SIR_ode'",
                               sliderInput("tau",
                                           "Infectious period (months):",
                                           value = 3,
@@ -96,7 +96,7 @@ sidebar <- dashboardSidebar(
                                           max = 150,
                                           step = 1)
              ),
-             conditionalPanel(condition = "input.model == 'SIR_vaccination_ode'",
+             conditionalPanel(condition = "input.model == 'SIR_vaccination_demographics_ode'",
                               sliderInput("alpha", 
                                           "Proportion vaccinated:",
                                           value = 0.8,
