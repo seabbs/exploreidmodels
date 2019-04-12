@@ -22,7 +22,7 @@ shinyServer(function(input, output) {
   ## Choose model and set up
     if (input$model %in% "SI_ode") {
       ## Model
-      model <- ifelse(input$demographics, SI_demo_ode, SI_ode)
+      model <- ifelse(input$demographics, SI_demographics_ode, SI_ode)
       sim_fn <- solve_ode
       ##parameters
       params <- data.frame(beta = input$beta)
@@ -31,7 +31,7 @@ shinyServer(function(input, output) {
       inits <- data.frame(S = N - I, I = I)
     }else if (input$model %in% "SIR_ode") {
       ## Model
-      model <- ifelse(input$demographics, SIR_demo_ode, SIR_ode)
+      model <- ifelse(input$demographics, SIR_demographics_ode, SIR_ode)
       sim_fn <- solve_ode
       ##parameters
       params <- data.frame(beta = input$beta, tau = 12/input$tau)
@@ -40,7 +40,7 @@ shinyServer(function(input, output) {
       inits <- data.frame(S = N - I, I = I, R = 0)
     }else if (input$model %in% "SEI_ode") {
       ## Model
-      model <- ifelse(input$demographics, SEI_demo_ode, SEI_ode)
+      model <- ifelse(input$demographics, SEI_demographics_ode, SEI_ode)
       sim_fn <- solve_ode
       ##parameters
       params <- data.frame(beta = input$beta, gamma = 12/input$gamma)
@@ -49,7 +49,7 @@ shinyServer(function(input, output) {
       inits <- data.frame(S = N - I, E = 0, I = I)
     }else if (input$model %in% "SEIR_ode") {
       ## Model
-      model <- ifelse(input$demographics, SEIR_demo_ode, SEIR_ode)
+      model <- ifelse(input$demographics, SEIR_demographics_ode, SEIR_ode)
       sim_fn <- solve_ode
       ##parameters
       params <- data.frame(beta = input$beta, gamma = 12/input$gamma, tau = 12/input$tau)
@@ -58,7 +58,7 @@ shinyServer(function(input, output) {
       inits <- data.frame(S = N - I, E = 0, I = I, R = R)
     }else if (input$model %in% "SHLIR_ode") {
       ## Model
-      model <- ifelse(input$demographics, SHLIR_demo_ode, SHLIR_ode)
+      model <- ifelse(input$demographics, SHLIR_demographics_ode, SHLIR_ode)
       sim_fn <- solve_ode
       ##parameters
       params <- data.frame(beta = input$beta, gamma_H = input$gamma_H, 
@@ -66,10 +66,10 @@ shinyServer(function(input, output) {
       
       ##initial pop
       inits <- data.frame(S = N - I, H = 0, L = 0, I = I, R = R)
-    }else if (input$model %in% "SHLITR_risk_group_ode") {
+    }else if (input$model %in% "SHLITR_risk_demographics_ode") {
       
       ## Model
-      model <- SHLITR_risk_group_ode
+      model <- SHLITR_risk_demographics_ode
       sim_fn <- solve_ode
       ##parameters
       params <- data.frame(beta = input$beta, beta_H = input$beta_H, 
@@ -80,9 +80,9 @@ shinyServer(function(input, output) {
       ##initial pop
       inits <- data.frame(S = (1 - params$p) * N, H = 0, L = 0, I = 0, Tr = 0, R = 0,
                           S_H = params$p * N - I, H_H = 0, L_H = 0, I_H = I, Tr_H = 0, R_H = 0)
-    }else if (input$model %in% "SIR_vaccination_ode") {
+    }else if (input$model %in% "SIR_vaccination_demographics_ode") {
       ## Model
-      model <- SIR_vaccination_ode
+      model <- SIR_vaccination_demographics_ode
       sim_fn <- solve_ode
       ##parameters
       params <- data.frame(beta = input$beta, tau = 12/input$tau,
@@ -123,11 +123,11 @@ shinyServer(function(input, output) {
   ## Check models are implemented
   model_implemented <- reactive({
     validate(
-      need(!all(!input$demographics, input$model %in% "SHLITR_risk_group_ode"), "This model has only be implemented with demographics, enable them")
+      need(!all(!input$demographics, input$model %in% "SHLITR_risk_demographics_ode"), "This model has only be implemented with demographics, enable them")
     )
     
     validate(
-      need(!all(!input$demographics, input$model %in% "SIR_vaccination_ode"), "This model has only be implemented with demographics, enable them")
+      need(!all(!input$demographics, input$model %in% "SIR_vaccination_demographics_ode"), "This model has only be implemented with demographics, enable them")
     )
     
     message("Model has been implemented, showing output.")
@@ -187,10 +187,10 @@ shinyServer(function(input, output) {
     
     tab <- simulations$current[[1]]
     
-    if (simulations$current[[3]] %in% "SIR_vaccination_ode") {
+    if (simulations$current[[3]] %in% "SIR_vaccination_demographics_ode") {
       tab <-  tab %>% 
         mutate(I = I_u + I_v)
-    }else if ( simulations$current[[3]] %in% "SHLITR_risk_group_ode"){
+    }else if ( simulations$current[[3]] %in% "SHLITR_risk_demographics_ode"){
       tab <- tab %>% 
         mutate(I = I + I_H)
     }
