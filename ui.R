@@ -145,7 +145,7 @@ body <- dashboardBody(
                            withSpinner(),
                          switchInput("facet_model",
                                      label = "Plot compartments separately", 
-                                     value = FALSE, inline = TRUE, width = "auto"),
+                                     value = TRUE, inline = TRUE, width = "auto"),
                          switchInput("previous_model_run",
                                      label = "Show the previous model run", 
                                      value = FALSE, inline = TRUE, width = "auto")
