@@ -2,7 +2,7 @@
 FROM rocker/binder:latest
 
 USER root
-COPY . ${HOME} cp ./* ./Child1/
+COPY . ${HOME}
 RUN mkdir app && mv app ..
 RUN cp -a ${HOME}/. ../app && mv ../app .
 RUN chown -R ${NB_USER} ${HOME}
