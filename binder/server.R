@@ -1,9 +1,9 @@
+## Dummy server for shiny binder deployment
 ## Set the working directory
 setwd("..")
 
-## Load UI and server 
+## Load Server 
 source("server.R")
 
-source("ui.R)
 
 

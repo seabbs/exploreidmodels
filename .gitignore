@@ -6,3 +6,5 @@
 packrat/lib*/
 packrat/bundles/
 rsconnect/
+.local/
+.rstudio/
