@@ -14,6 +14,9 @@ knitr::opts_chunk$set(
 
 # Explore Infectious Disease Models
 
+[![badge](https://img.shields.io/badge/Launch-App-lightgreen.svg)](https://mybinder.org/v2/gh/seabbs/exploreidmodels/master?urlpath=shiny/app/)
+[![badge](https://img.shields.io/badge/Launch-Dev Environment-lightblue.svg)](https://mybinder.org/v2/gh/seabbs/exploreidmodels/master?urlpath=rstudio)
+
 [This shiny app](http://seabbs.co.uk/shiny/exploreidmodels) has been developed to allow the exploration of the parameter space of [compartmental infectious disease models](https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology). It is designed to be used as a teaching aid when introducing people to the concepts behind infectious disease models without requiring them to interact with the underlying code. A number of infectious disease models are included, such as a Susceptible, Exposed, Infected, Recovered model the flow diagram for which can be seen below.
 
 ```{r out.width = "30%", fig.cap = "A susceptible, exposed, infected, recovered model."}
@@ -83,7 +86,8 @@ docker pull seabbs/exploreidmodels
 docker run --rm -p 8787:8787 -e USER=exploreidmdoels -e PASSWORD=exploreidmodels --name exploreidmodels seabbs/exploreidmodels
 ```
 
-The Rstudio server can be found on port `:8787` at your local machines ip (or localhost on windows).
+The Rstudio server can be found on port `:8787` at your local machines ip (or localhost on windows). Alternatively the app has been deployed using [mybinder](). See [here](https://mybinder.org/v2/gh/seabbs/exploreidmodels/master?urlpath=rstudio) for the development environment and [here](https://mybinder.org/v2/gh/seabbs/exploreidmodels/master?urlpath=shiny/app/) for the app.
+
 
 
 
