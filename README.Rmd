@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 [![badge](https://img.shields.io/badge/Launch-App-lightgreen.svg)](https://mybinder.org/v2/gh/seabbs/exploreidmodels/master?urlpath=shiny/app/)
 [![badge](https://img.shields.io/badge/Launch-Dev Environment-lightblue.svg)](https://mybinder.org/v2/gh/seabbs/exploreidmodels/master?urlpath=rstudio)
 
-[This shiny app](http://seabbs.co.uk/shiny/exploreidmodels) has been developed to allow the exploration of the parameter space of [compartmental infectious disease models](https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology). It is designed to be used as a teaching aid when introducing people to the concepts behind infectious disease models without requiring them to interact with the underlying code. A number of infectious disease models are included, such as a Susceptible, Exposed, Infected, Recovered model the flow diagram for which can be seen below.
+This shiny app has been developed to allow the exploration of the parameter space of [compartmental infectious disease models](https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology). It is designed to be used as a teaching aid when introducing people to the concepts behind infectious disease models without requiring them to interact with the underlying code. A number of infectious disease models are included, such as a Susceptible, Exposed, Infected, Recovered model the flow diagram for which can be seen below.
 
 ```{r out.width = "30%", fig.cap = "A susceptible, exposed, infected, recovered model."}
 knitr::include_graphics("./img/SEIR_flow_diag.png")

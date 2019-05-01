@@ -4,9 +4,8 @@
 [![badge](https://img.shields.io/badge/Launch-App-lightgreen.svg)](https://mybinder.org/v2/gh/seabbs/exploreidmodels/master?urlpath=shiny/app/)
 [![badge](https://img.shields.io/badge/Launch-Dev%20Environment-lightblue.svg)](https://mybinder.org/v2/gh/seabbs/exploreidmodels/master?urlpath=rstudio)
 
-[This shiny app](http://seabbs.co.uk/shiny/exploreidmodels) has been
-developed to allow the exploration of the parameter space of
-[compartmental infectious disease
+This shiny app has been developed to allow the exploration of the
+parameter space of [compartmental infectious disease
 models](https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology).
 It is designed to be used as a teaching aid when introducing people to
 the concepts behind infectious disease models without requiring them to
