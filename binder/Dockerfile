@@ -1,5 +1,5 @@
 
-FROM rocker/binder:3.5.2
+FROM rocker/binder:latest
 
 USER root
 COPY . ${HOME}
