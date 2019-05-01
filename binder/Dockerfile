@@ -3,8 +3,9 @@ FROM rocker/binder:latest
 
 USER root
 COPY . ${HOME}
-RUN mkdir ${HOME}/app
-RUN cp -a ${HOME}/. ${HOME}/app
+RUN mkdir app
+RUN cp -a ${HOME}/. app
+RUN mv -a app ${HOME}/app
 RUN chown -R ${NB_USER} ${HOME}
 
 ## Become normal user again
