@@ -2,10 +2,9 @@
 FROM rocker/binder:latest
 
 USER root
-COPY . ${HOME}
-RUN mkdir app
-RUN cp -a ${HOME}/. app
-RUN mv -a app ${HOME}/app
+COPY . ${HOME} cp ./* ./Child1/
+RUN mkdir app && mv app ..
+RUN cp -a ${HOME}/. ../app && mv ../app .
 RUN chown -R ${NB_USER} ${HOME}
 
 ## Become normal user again
