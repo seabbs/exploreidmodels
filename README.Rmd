@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 
 # Explore Infectious Disease Models
 
-[![badge](https://img.shields.io/badge/Launch-App-lightgreen.svg)](https://mybinder.org/v2/gh/seabbs/exploreidmodels/master?urlpath=shiny/)
+[![badge](https://img.shields.io/badge/Launch-App-lightgreen.svg)](https://mybinder.org/v2/gh/seabbs/exploreidmodels/master?urlpath=shiny/app/)
 [![badge](https://img.shields.io/badge/Launch-Dev Environment-lightblue.svg)](https://mybinder.org/v2/gh/seabbs/exploreidmodels/master?urlpath=rstudio)
 
 This shiny app has been developed to allow the exploration of the parameter space of [compartmental infectious disease models](https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology). It is designed to be used as a teaching aid when introducing people to the concepts behind infectious disease models without requiring them to interact with the underlying code. A number of infectious disease models are included, such as a Susceptible, Exposed, Infected, Recovered model the flow diagram for which can be seen below.
