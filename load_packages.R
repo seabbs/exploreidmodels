@@ -3,8 +3,7 @@ packages <- list("shiny", "shinydashboard", "shinyBS", "magrittr", "dplyr",
                    "rmarkdown", "plotly", "DT", "idmodelr", "shinyWidgets",
                  "shinycssloaders")
 
-## Assign usernames to github packages
-names(packages)[packages %in% "idmodelr"] <- "seabbs"
+## Assign usernames to github packag
 names(packages)[packages %in% "biddmodellingcourse"] <- "bristolmathmodellers"
 
 load_packages <- function(packages) {
